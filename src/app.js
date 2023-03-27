@@ -106,6 +106,14 @@ app.get("/r/:id", async (req, res) => {
   return res.type("text").send(pasteJson.content);
 });
 
+app.get("/dl/:id", async (req, res) => {
+  const pasteReq = await fetch(`${API_URL}/pastes/${req.params.id}`);
+  const pasteJson = await pasteReq.json();
+  if (pasteReq.status != 200)
+    return res.type("text").status(404).send("not found");
+  return res.attachment(`${pasteJson.title}.txt`).send(pasteJson.content);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
