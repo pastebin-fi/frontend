@@ -1,0 +1,28 @@
+doctype html
+html(lang="fi")
+  include includes/head.pug
+
+  main.container
+    div
+      h2 #{ paste.title }
+      .btn-group(style="float: right; position: block")
+        a.btn.btn-default.btn-ghost(href=`/r/${paste.id}`) Raaka
+        a.btn.btn-default.btn-ghost(href=`/dl/${paste.id}`) Lataa (#{ paste.meta.size } tavua)
+      div
+      span
+      | #{ paste.date } | #{ paste.meta.views } katselukertaa |
+      span
+      span  #{ paste.hidden ? 'Piilotettu' : 'Julkinen' }
+    div
+    br
+    pre
+      code
+        | #{ paste.content }
+
+  script.
+    document.addEventListener("DOMContentLoaded", (event) => {
+      document.querySelectorAll("code").forEach((el) => {
+        hljs.highlightElement(el);
+        console.log(`Detected language as ${el.result.language} with relevance ${el.result.relevance}`);
+      });
+    });

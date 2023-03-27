@@ -1,0 +1,50 @@
+doctype html
+html(lang="fi")
+  include includes/head.pug
+
+  main.container
+    h2 Tietoa meistä
+    p
+      | Olet eksynyt pastebin.fi sivustolle. Kyseessä on avoimen lähdekoodin
+      | klooni pastebin.com sivustosta (ja kaikista muistakin
+      | liiteroskis/pastebin-tyylisistä sivuista).
+    |
+    | -
+    a(href="https://github.com/pastebin-fi") Lähdekoodi
+    br
+    br
+    p
+      | Palvelumme tarjoaa julkisen API rajapinnan kattavine dokumentaatioineen.
+      | Toivoisimme tätä rajapintaa käytettävän, jos halutaan toteuttaa
+      | laajamuotoista (taikka pienimuotoista) tiedon haravointia (web
+      | scraping). Emme rajoita lukuja/hakuja, mutta luontia rajoitamme.
+      | IP-osoitteen luotettavuus myös tarkastetaan luodessa AbuseIPDB:stä.
+    |
+    | -
+    a(href="") API-dokumentaatio
+    br
+    br
+    p
+      | Moottorina palvelulle toimii MongoDB-tietokanta, Node.JS-backend
+      | (api.pastebin.fi) ja Express+Pug -frontend (pastebin.fi).
+    p
+      | Kiitokset backendista kuuluu Toukolle ja frontendista Roylle. Palvelun
+      | ylläpidon tarjoaa protokolla.fi.
+    |
+    | -
+    a(href="https://tova.fi") Toukon sivusto
+    br
+    |
+    | -
+    a(href="https://github.com/RoyTakanen") Royn Github
+    br
+    |
+    | -
+    a(href="https://protokolla.fi") protokolla.fi
+    hr
+    p
+      | Onko sinulla oma frontend pastebin.fi:n API:lle? Voit saada meiltä subdomainin sille, jolloinka frontendia voi käyttää frontend.pastebin.fi osoitteesta.
+    hr
+    center
+      a(href="http://status.protokolla.fi") status-sivu
+      span | #{ metrics.pasteCount.total } liitettä (#{ metrics.pasteCount.public } julkista ja #{ metrics.pasteCount.private } yksityistä)

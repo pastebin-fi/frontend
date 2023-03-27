@@ -1,0 +1,32 @@
+head
+  meta(charset="UTF-8")
+  title Etusivu - Pastebin.fi
+  // og meta
+  meta(property="og:type", value="website")
+  meta(property="og:title", value="Etusivu - Pastebin.fi")
+  meta(property="og:description", value="Lähetä tekstiliitteesi tänne.")
+  meta(property="og:url", value="https://pastebin.fi")
+  // twitter meta
+  meta(name="twitter:card", value="summary")
+  meta(name="twitter:title", value="Etusivu - Pastebin.fi")
+  meta(name="twitter:description", value="Lähetä tekstiliitteesi tänne.")
+  meta(name="viewport", content="width=device-width, initial-scale=1.0")
+
+  // terminalcss
+  link(rel="stylesheet", href="/static/terminal.css")
+
+  // styling code
+  link(rel="stylesheet", href="/static/hljs.css")
+  script(src="/static/hljs.js")
+  link(rel="stylesheet", href="/static/hljsmod.css")
+
+.terminal-nav.container
+  .terminal-logo
+    .logo
+      a.no-style(href="/") Pastebin.fi
+  nav.terminal-menu
+    ul
+      li
+        a.menu-item(href="/browse") 10 viimeisintä liitettä
+      li
+        a.menu-item(href="/about") Tietoa meistä

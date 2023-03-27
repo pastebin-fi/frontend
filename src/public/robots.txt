@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /static/
+Disallow: /r/
+Disallow: /dl/
