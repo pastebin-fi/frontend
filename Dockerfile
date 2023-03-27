@@ -11,8 +11,6 @@ RUN npm prune --production
 
 COPY src ./
 
-RUN mkdir data
-
 # final image
 FROM gcr.io/distroless/nodejs:18
 
