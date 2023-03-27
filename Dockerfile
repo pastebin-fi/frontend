@@ -1,5 +1,5 @@
 # builder
-FROM node:16 as build
+FROM node:18 as build
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ COPY src ./
 RUN mkdir data
 
 # final image
-FROM gcr.io/distroless/nodejs:19
+FROM gcr.io/distroless/nodejs:18
 
 WORKDIR /app
 
