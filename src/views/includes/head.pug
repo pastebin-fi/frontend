@@ -1,15 +1,15 @@
 head
   meta(charset="UTF-8")
-  title Etusivu - Pastebin.fi
+  title #{head.title}
   // og meta
   meta(property="og:type", value="website")
-  meta(property="og:title", value="Etusivu - Pastebin.fi")
-  meta(property="og:description", value="Lähetä tekstiliitteesi tänne.")
-  meta(property="og:url", value="https://pastebin.fi")
+  meta(property="og:title", value=head.title)
+  meta(property="og:description", value=head.description)
+  meta(property="og:url", value=head.url)
   // twitter meta
   meta(name="twitter:card", value="summary")
-  meta(name="twitter:title", value="Etusivu - Pastebin.fi")
-  meta(name="twitter:description", value="Lähetä tekstiliitteesi tänne.")
+  meta(name="twitter:title", value=head.title)
+  meta(name="twitter:description", value=head.description)
   meta(name="viewport", content="width=device-width, initial-scale=1.0")
 
   // terminalcss

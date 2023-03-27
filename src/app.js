@@ -17,7 +17,14 @@ app.use(
 app.set("view engine", "pug");
 
 app.get("/", (req, res) => {
-  res.render("index", { lorem });
+  res.render("index", { 
+    lorem,
+    head: {
+      title: "Etusivu - Pastebin.fi",
+      description: "Lähetä tekstiliitteesi tänne.",
+      url: "https://pastebin.fi"
+    }
+  });
 });
 
 app.post("/", async (req, res) => {
@@ -44,7 +51,14 @@ app.post("/", async (req, res) => {
 app.get("/about", async (req, res) => {
   const metricsReq = await fetch(`${API_URL}/metrics`);
   const metricsJson = await metricsReq.json();
-  res.render("about", { metrics: metricsJson });
+  res.render("about", { 
+    metrics: metricsJson,
+    head: {
+      title: "Tietoa - Pastebin.fi",
+      description: "Mikä ihmeen pastebin.fi...",
+      url: "https://pastebin.fi/about"
+    }
+  });
 });
 
 app.get("/browse", async (req, res) => {
@@ -60,14 +74,28 @@ app.get("/browse", async (req, res) => {
   const browseJson = await browseReq.json();
   if (browseReq.status != 200)
     res.render("404", { message: browseJson.message });
-  res.render("browse", { pastes: browseJson });
+  res.render("browse", { 
+    pastes: browseJson,
+    head: {
+      title: "Selaa - Pastebin.fi",
+      description: "Kymmenen viimeisintä tekstiliitettä!",
+      url: "https://pastebin.fi/browse"
+    }
+  });
 });
 
 app.get("/p/:id", async (req, res) => {
   const pasteReq = await fetch(`${API_URL}/pastes/${req.params.id}`);
   const pasteJson = await pasteReq.json();
   if (pasteReq.status != 200) res.render("404", { message: pasteJson.message });
-  res.render("paste", { paste: pasteJson });
+  res.render("paste", { 
+    paste: pasteJson,
+    head: {
+      title: `${pasteJson.title} - Pastebin.fi`,
+      description: `${pasteJson.meta.views} katselukertaa | ${pasteJson.meta.size} tavua | ${pasteJson.date}`,
+      url: "https://pastebin.fi/p/" + req.params.id
+    }
+  });
 });
 
 app.get("/r/:id", async (req, res) => {
