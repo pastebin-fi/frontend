@@ -18,11 +18,3 @@ html(lang="fi")
     pre
       code
         | #{ paste.content }
-
-  script.
-    document.addEventListener("DOMContentLoaded", (event) => {
-      document.querySelectorAll("code").forEach((el) => {
-        hljs.highlightElement(el);
-        console.log(`Detected language as ${el.result.language} with relevance ${el.result.relevance}`);
-      });
-    });
