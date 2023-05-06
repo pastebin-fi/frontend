@@ -47,6 +47,7 @@ app.post("/", async (req, res) => {
   let id;
   if (pasteReq.status === 409) id = pasteJson.data.pasteIdentifier;
   else id = pasteJson.id;
+  console.log(`New paste created with id ${id} from ip ${req.ip}`)
   res.redirect(`/p/${id}`);
 });
 
