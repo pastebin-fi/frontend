@@ -14,6 +14,8 @@ app.use(
     extended: true,
   })
 );
+//TODO: don't use hardcoded values
+app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"])
 
 app.set("view engine", "pug");
 
