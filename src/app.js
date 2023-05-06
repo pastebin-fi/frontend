@@ -1,7 +1,8 @@
 const express = require("express");
+const process = require("process");
 const app = express();
 const port = 3000;
-const API_URL = "https://api.pastebin.fi";
+const API_URL = process.env.API_URL || "https://api.pastebin.fi";
 
 const lorem = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In dapibus dui hac nostra mattis aptent lorem. Auctor nec nullam justo purus aptent placerat sociosqu.\n\nHendrerit odio adipiscing nam magna maecenas purus varius. Dictumst torquent venenatis non conubia aenean commodo eu. Ante in condimentum conubia arcu diam blandit fusce.\n\nLaoreet venenatis porta cubilia elit mus molestie potenti. Consectetur curabitur molestie eget fermentum consectetur amet fermentum. Lorem blandit proin proin odio nostra nisl eleifend.`;
 
