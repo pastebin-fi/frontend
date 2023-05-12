@@ -1,27 +1,27 @@
 head
-  meta(charset="UTF-8")
-  title #{head.title}
-  // og meta
-  meta(property="og:type", value="website")
-  meta(property="og:title", value=head.title)
-  meta(property="og:description", value=head.description)
-  meta(property="og:url", value=head.url)
-  // twitter meta
-  meta(name="twitter:card", value="summary")
-  meta(name="twitter:title", value=head.title)
-  meta(name="twitter:description", value=head.description)
-  meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(charset="UTF-8")
+    title #{ head.title }
+    // og meta
+    meta(property="og:type", value="website")
+    meta(property="og:title", value=head.title)
+    meta(property="og:description", value=head.description)
+    meta(property="og:url", value=head.url)
+    // twitter meta
+    meta(name="twitter:card", value="summary")
+    meta(name="twitter:title", value=head.title)
+    meta(name="twitter:description", value=head.description)
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
 
-  // terminalcss
-  link(rel="stylesheet", href="/static/terminal.css")
+    // terminalcss
+    link(rel="stylesheet", href="/static/terminal.css")
 
 .terminal-nav.container
-  .terminal-logo
-    .logo
-      a.no-style(href="/") Pastebin.fi
-  nav.terminal-menu
-    ul
-      li
-        a.menu-item(href="/browse") 10 viimeisintä liitettä
-      li
-        a.menu-item(href="/about") Tietoa meistä
+    .terminal-logo
+        .logo
+            a.no-style(href="/") Pastebin.fi
+    nav.terminal-menu
+        ul
+            li
+                a.menu-item(href="/browse") 10 viimeisintä liitettä
+            li
+                a.menu-item(href="/about") Tietoa meistä

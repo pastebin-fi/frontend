@@ -1,19 +1,19 @@
 doctype html
 html(lang="fi")
-  include includes/head.pug
+    include includes/head.pug
 
-  main.container
-    h2
-      #translate-newPasteHeading Selaa liitteitä (tulevaisuudessa voi hakea ja selata sivuja)
+    main.container
+        h2
+            #translate-newPasteHeading Selaa liitteitä (tulevaisuudessa voi hakea ja selata sivuja)
 
-    each paste in pastes
-      .terminal-card
-        header #{ paste.title ? paste.title : "nimetön" }
-        div
-          | Katsottu: #{ paste.meta.views } kertaa | Koko: #{ paste.meta.size } tavua | Luotu #{ paste.date }
-          // Was previously 500 chars from paste
-          br
-          br
-          a(href=`/p/${paste.id}`) Katso liite
-        br
-      br
+        each paste in pastes
+            .terminal-card
+                header #{ paste.title ? paste.title : "nimetön" }
+                div
+                    | Katsottu: #{ paste.meta.views } kertaa | Koko: #{ paste.meta.size } tavua | Luotu #{ paste.date }
+                    // Was previously 500 chars from paste
+                    br
+                    br
+                    a(href=`/p/${paste.id}`) Katso liite
+                br
+            br

@@ -1,26 +1,22 @@
 doctype html
 html(lang="fi")
-  include includes/head.pug
+    include includes/head.pug
 
-  main.container
-    h2
-      #translate-newPasteHeading Luo uusi liite
-    form(method="POST", action="/")
-      fieldset
-        .form-group
-          label(for="name")
-          #translate-nameOfPaste Liitteen nimi:
-          input#name(type="text", placeholder="Nimi...", name="title")
-        .form-group
-          label(for="paste") Liite:
-          textarea#paste(cols="30", rows="20", name="paste", placeholder=lorem)
-        .form-group
-          label(for="private") Yksityinen:
-          input#private(input="", type="checkbox", name="private")
-        .form-group
-          button#submit.btn.btn-default(
-            type="submit",
-            role="button",
-            name="submit"
-          )
-            | Luo!
+    main.container
+        h2
+            #translate-newPasteHeading Luo uusi liite
+        form(method="POST", action="/")
+            fieldset
+                .form-group
+                    label(for="name")
+                    #translate-nameOfPaste Liitteen nimi:
+                    input#name(type="text", placeholder="Nimi...", name="title")
+                .form-group
+                    label(for="paste") Liite:
+                    textarea#paste(cols="30", rows="20", name="paste", placeholder=lorem)
+                .form-group
+                    label(for="private") Yksityinen:
+                    input#private(input="", type="checkbox", name="private")
+                .form-group
+                    button#submit.btn.btn-default(type="submit", role="button", name="submit")
+                        | Luo!
