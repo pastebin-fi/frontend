@@ -2,19 +2,17 @@ doctype html
 html(lang="fi")
     include includes/head.pug
 
+    br
+    br
     main.container
         div
             h2 #{ paste.title }
             .btn-group(style="float: right; position: block")
                 a.btn.btn-default.btn-ghost(href=`/r/${paste.id}`) Raaka
-                a.btn.btn-default.btn-ghost(href=`/dl/${paste.id}`) Lataa (#{ paste.meta.size } tavua)
-            div
-            span
-            | #{ paste.date } | #{ paste.meta.views } katselukertaa |
-            span
-            span  #{ paste.hidden ? 'Piilotettu' : 'Julkinen' }
-        div
+                a.btn.btn-default(href=`/dl/${paste.id}`) Lataa (#{ paste.meta.size } tavua)
+
+            p #{ paste.date } | #{ paste.meta.views } katselukertaa | #{ paste.hidden ? 'Piilotettu' : 'Julkinen' }
+        br 
         br
         pre
-            code
-                | #{ paste.content }
+            code !{ paste.content }

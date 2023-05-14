@@ -1,4 +1,5 @@
 const express = require("express")
+const { default: hljs } = require("highlight.js")
 const process = require("process")
 
 const API_URL = process.env.API_URL || "https://api.pastebin.fi"
@@ -49,11 +50,11 @@ function registerRoutes(app) {
 
         let id = undefined
         if (pasteReq.status === 409) {
-            console.log(`New paste resolved with id ${id} from ip ${req.ip}`)
             id = pasteJson.data.pasteIdentifier
-        } else {
             console.log(`New paste resolved with id ${id} from ip ${req.ip}`)
+        } else {
             id = pasteJson.id
+            console.log(`New paste created with id ${id} from ip ${req.ip}`)
         }
 
         res.redirect(`/p/${id}`)
@@ -68,9 +69,12 @@ function registerRoutes(app) {
     })
 
     app.get("/browse", async (req, res) => {
+        let sorting = req.query.sorting || "date"
+        if (req.query.sort_method === "dec") sorting = "-" + req.query.sorting
+
         const searchParams = new URLSearchParams({
-            sorting: req.query.sorting || "-date",
-            q: req.query.q || "",
+            sorting,
+            q: req.query.search || "",
         })
 
         const browseReq = await fetch(`${API_URL}/pastes?` + searchParams)
@@ -88,12 +92,19 @@ function registerRoutes(app) {
         const pasteJson = await pasteReq.json()
         if (pasteReq.status != 200) res.render("404", { message: pasteJson.message })
         res.render("paste", {
-            paste: pasteJson,
-            head: {
-                title: `${pasteJson.title} - Pastebin.fi`,
-                description: `${pasteJson.meta.views} katselukertaa | ${pasteJson.meta.size} tavua | ${pasteJson.date}`,
-                url: "https://pastebin.fi/p/" + req.params.id,
+            paste: {
+                title: pasteJson.title,
+                id: pasteJson.id,
+                meta: pasteJson.meta,
+                date: pasteJson.date,
+                hidden: pasteJson.hidden,
+                content: hljs.highlightAuto(pasteJson.content).value,
             },
+            head: getHeadProperties(
+                `${pasteJson.title}`,
+                `${pasteJson.meta.views} katselukertaa | ${pasteJson.meta.size} tavua | ${pasteJson.date}`,
+                "https://pastebin.fi/p/" + req.params.id
+            ),
         })
     })
 
