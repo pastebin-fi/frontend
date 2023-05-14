@@ -4,14 +4,31 @@ html(lang="fi")
 
     main.container
         h2
-            #translate-newPasteHeading Selaa liitteitä (tulevaisuudessa voi hakea ja selata sivuja)
+            #translate-newPasteHeading Selaa liitteitä
 
+        form(onsubmit="() => { console.log('submit'); }")
+            .form-group
+                h3 Filteröi tuloksia
+                label(for="search") Hae liitettä
+                input#q(type="text", placeholder="Matti Nykäsen päiväkirja", name="search")
+
+            .form-group
+                h3 Järjestä tulokset
+                input#radio.radio(name="sorting", type="radio", value="-date", checked)
+                label(for="sort") Uusin ensin
+                br
+                input#radio.radio(name="sorting", type="radio", value="+date")
+                label(for="sort") Vanhin ensin
+
+            input.btn.btn-default(type="submit", value="Hae")
+
+        br
+        br
         each paste in pastes
             .terminal-card
                 header #{ paste.title ? paste.title : "nimetön" }
                 div
                     | Katsottu: #{ paste.meta.views } kertaa | Koko: #{ paste.meta.size } tavua | Luotu #{ paste.date }
-                    // Was previously 500 chars from paste
                     br
                     br
                     a(href=`/p/${paste.id}`) Katso liite
