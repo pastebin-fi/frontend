@@ -24,6 +24,14 @@ function getApp() {
 }
 
 function registerRoutes(app) {
+    app.get("/*", (_, res) => {
+        res.render("404", {
+            message: "Sivua ei löytynyt.",
+            head: getHeadProperties("404", "Sivua ei löytynyt.", "/"),
+        })
+        res.status(404)
+    })
+
     app.get("/", (_, res) => {
         res.render("index", {
             lorem: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In dapibus dui hac nostra mattis aptent lorem. Auctor nec nullam justo purus aptent placerat sociosqu.\n\nHendrerit odio adipiscing nam magna maecenas purus varius. Dictumst torquent venenatis non conubia aenean commodo eu. Ante in condimentum conubia arcu diam blandit fusce.\n\nLaoreet venenatis porta cubilia elit mus molestie potenti. Consectetur curabitur molestie eget fermentum consectetur amet fermentum. Lorem blandit proin proin odio nostra nisl eleifend.`,
