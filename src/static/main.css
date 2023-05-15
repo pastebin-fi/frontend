@@ -17,8 +17,8 @@ code {
 }
 
 a.btn.btn-default.btn-ghost {
-    padding: 9px 20px;
-    margin-top: 1px;
+    padding: 8.5px 20px;
+    margin-top: 1.25px;
 }
 
 @media screen and (max-width: 400px) {

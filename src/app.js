@@ -1,3 +1,4 @@
+const cookieParser = require("cookie-parser")
 const express = require("express")
 const { default: hljs } = require("highlight.js")
 const process = require("process")
@@ -17,6 +18,7 @@ function getApp() {
     app.use("/static", express.static("static")) // css & js files
     app.use("/public", express.static("public")) // robots.txt & .well-known
     app.use(express.urlencoded({ extended: true }))
+    app.use(cookieParser())
 
     //TODO: don't use hardcoded values
     app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"])
@@ -68,21 +70,42 @@ function registerRoutes(app) {
         })
     })
 
+    app.get("/browse-next-page", async (req, res) => {
+        res.redirect("/browse?page=" + (parseInt(req.query.page) + 1))
+    })
+
     app.get("/browse", async (req, res) => {
+        const originalQuery = req.query
+        try {
+            req.query = (req.query.useCookieQuery === "true" && req.cookies.query) || req.query
+        } catch (e) {}
+
         let sorting = req.query.sorting || "date"
-        if (req.query.sort_method === "dec") sorting = "-" + req.query.sorting
+        if (req.query.sort_method !== "inc") sorting = "-" + req.query.sorting
+
+        const per_page = req.query.per_page || 20
 
         const searchParams = new URLSearchParams({
-            sorting,
+            sorting: sorting,
             q: req.query.search || "",
+            limit: (per_page + 1).toString(),
+            offset: ((parseInt(originalQuery.p) || 0) * per_page).toString(),
         })
+
+        if (req.query.useCookieQuery !== "true")
+            res.cookie("query", req.query || 0, { maxAge: 900000, httpOnly: true })
 
         const browseReq = await fetch(`${API_URL}/pastes?` + searchParams)
         const browseJson = await browseReq.json()
 
         if (browseReq.status != 200) res.render("404", { message: browseJson.message })
+
         res.render("browse", {
-            pastes: browseJson,
+            pastes: browseJson.slice(0, per_page),
+            nextPage: (parseInt(originalQuery.p) || 0) + 1,
+            lastPage: Math.max(0, (parseInt(originalQuery.p) || 0) - 1),
+            currentPage: Math.max(0, parseInt(originalQuery.p) || 0),
+            hasMorePages: browseJson.length > per_page,
             head: getHeadProperties("Selaa", "Selaa viimeisimpiä tekstiliitoksia.", "/browse"),
         })
     })
