@@ -1,19 +1,69 @@
 doctype html
 html(lang="fi")
-  include includes/head.pug
+    include includes/head.pug
 
-  main.container
-    h2
-      #translate-newPasteHeading Selaa liitteitä (tulevaisuudessa voi hakea ja selata sivuja)
+    main.container
+        h2
+            #translate-newPasteHeading Selaa liitteitä
 
-    each paste in pastes
-      .terminal-card
-        header #{ paste.title ? paste.title : "nimetön" }
-        div
-          | Katsottu: #{ paste.meta.views } kertaa | Koko: #{ paste.meta.size } tavua | Luotu #{ paste.date }
-          // Was previously 500 chars from paste
-          br
-          br
-          a(href=`/p/${paste.id}`) Katso liite
+        form
+            .form-group
+                h3 Filteröi tuloksia
+                label(for="search") Hae liitettä
+                input#q(type="text", placeholder="Matti Nykäsen päiväkirja", name="search")
+
+            .form-group
+                .form-inline
+                    div
+                        p Järjestä tulokset:
+                        input#radio1(name="sorting", type="radio", value="date", checked)
+                        span Päivämäärä
+                        br
+                        input#radio2(name="sorting", type="radio", value="meta.views")
+                        span Näyttökerrat
+                        br
+                        input.radio(name="sorting", type="radio", value="meta.size")
+                        span Koko
+
+                    div
+                        p Järjestys:
+                        input.radio(name="sort_method", type="radio", value="dec", checked)
+                        span Laskeva
+                        br
+                        input.radio(name="sort_method", type="radio", value="inc")
+                        span Nouseva
+
+                    div
+                        p Näytä tuloksia:
+                        input#number.number(type="number", name="per_page", value="10", min="5", max="30")
+
+            input.btn.btn-default(type="submit", value="Hae")
+
         br
-      br
+        br
+        if pastes.length == 0
+            p Ei tuloksia
+        else
+            p
+                if hasMorePages
+                    | Näytetään #{ pastes.length } tulosta sivulla #{ currentPage }
+                    | /?
+                else
+                    | Näytetään #{ pastes.length } tulosta
+        each paste in pastes
+            .terminal-card
+                header #{ paste.title ? paste.title : "nimetön" }
+                div
+                    | Katsottu: #{ paste.meta.views } kertaa | Koko: #{ paste.meta.size } tavua #{ paste.date && `| Luotu ${paste.date}` }
+                    br
+                    br
+                    a(href=`/p/${paste.id}`) Katso liite
+                br
+            br
+
+        a.btn.btn-default.btn-ghost(style="float: left", href=`?useCookieQuery=true&p=${lastPage}`) Äskeinen sivu
+        if hasMorePages
+            a.btn.btn-default.btn-ghost(style="float: right", href=`?useCookieQuery=true&p=${nextPage}`) Seuraava sivu
+        br
+        br
+        br
