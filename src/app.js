@@ -121,7 +121,7 @@ function registerRoutes(app) {
                 meta: pasteJson.meta,
                 date: pasteJson.date,
                 hidden: pasteJson.hidden,
-                content: hljs.highlightAuto(pasteJson.content).value,
+                content: hljs.highlight(pasteJson.content, { language: pasteJson.language }).value,
             },
             head: getHeadProperties(
                 `${pasteJson.title}`,
