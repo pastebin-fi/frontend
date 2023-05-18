@@ -1,6 +1,5 @@
 const cookieParser = require("cookie-parser")
 const express = require("express")
-const { default: hljs } = require("highlight.js")
 const process = require("process")
 
 const API_URL = process.env.API_URL || "https://api.pastebin.fi"
@@ -113,13 +112,6 @@ function registerRoutes(app) {
     app.get("/p/:id", async (req, res) => {
         const pasteReq = await fetch(`${API_URL}/pastes/${req.params.id}`)
         const pasteJson = await pasteReq.json()
-        let highlighted = pasteJson.content
-        if (pasteReq.status != 200) res.render("404", { message: pasteJson.message })
-        try {
-            if (pasteJson.language && pasteJson.language != "plaintext") highlighted = hljs.highlight(pasteJson.content, { language: pasteJson.language }).value            
-        } catch (error) {
-            console.error(error)
-        }
         res.render("paste", {
             paste: {
                 title: pasteJson.title,
@@ -127,7 +119,11 @@ function registerRoutes(app) {
                 meta: pasteJson.meta,
                 date: pasteJson.date,
                 hidden: pasteJson.hidden,
-                content: highlighted,
+                // COMMENT: we won't ever ever do highlighting in a backend for
+                // security reasons. If we pass HTML to pug we also allow 
+                // HTML in the pastes. Then https://pastebin.fi/p/Nrdyw2hp2dHe
+                // shows an alert.
+                content: pasteJson.content,
             },
             head: getHeadProperties(
                 `${pasteJson.title}`,
