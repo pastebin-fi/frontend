@@ -113,7 +113,13 @@ function registerRoutes(app) {
     app.get("/p/:id", async (req, res) => {
         const pasteReq = await fetch(`${API_URL}/pastes/${req.params.id}`)
         const pasteJson = await pasteReq.json()
+        let highlighted = pasteJson.content
         if (pasteReq.status != 200) res.render("404", { message: pasteJson.message })
+        try {
+            if (pasteJson.language && pasteJson.language != "plaintext") highlighted = hljs.highlight(pasteJson.content, { language: pasteJson.language }).value            
+        } catch (error) {
+            console.error(error)
+        }
         res.render("paste", {
             paste: {
                 title: pasteJson.title,
@@ -121,7 +127,7 @@ function registerRoutes(app) {
                 meta: pasteJson.meta,
                 date: pasteJson.date,
                 hidden: pasteJson.hidden,
-                content: hljs.highlight(pasteJson.content, { language: pasteJson.language }).value,
+                content: highlighted,
             },
             head: getHeadProperties(
                 `${pasteJson.title}`,
