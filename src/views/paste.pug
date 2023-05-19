@@ -1,7 +1,8 @@
 doctype html
 html(lang="fi")
     include includes/head.pug
-
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/a11y-dark.min.css')
+    
     br
     br
     main.container
@@ -15,4 +16,7 @@ html(lang="fi")
         br 
         br
         pre
-            code #{ paste.content }
+            code(class='language-' + paste.language) #{ paste.content }
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js')
+        script.
+            hljs.highlightAll();

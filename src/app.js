@@ -97,7 +97,7 @@ function registerRoutes(app) {
         const browseReq = await fetch(`${API_URL}/pastes?` + searchParams)
         const browseJson = await browseReq.json()
 
-        if (browseReq.status != 200) res.render("404", { message: browseJson.message })
+        if (browseReq.status != 200) return res.render("404", { head: { title: "Sivua ei löytynyt" }, message: browseJson.message })
 
         res.render("browse", {
             pastes: browseJson.slice(0, per_page),
@@ -112,6 +112,7 @@ function registerRoutes(app) {
     app.get("/p/:id", async (req, res) => {
         const pasteReq = await fetch(`${API_URL}/pastes/${req.params.id}`)
         const pasteJson = await pasteReq.json()
+        if (pasteReq.status != 200) return res.render("404", { head: { title: "Sivua ei löytynyt" }, message: pasteReq.message })
         res.render("paste", {
             paste: {
                 title: pasteJson.title,
@@ -124,6 +125,7 @@ function registerRoutes(app) {
                 // HTML in the pastes. Then https://pastebin.fi/p/Nrdyw2hp2dHe
                 // shows an alert.
                 content: pasteJson.content,
+                language: pasteJson.language
             },
             head: getHeadProperties(
                 `${pasteJson.title}`,
@@ -136,14 +138,14 @@ function registerRoutes(app) {
     app.get("/r/:id", async (req, res) => {
         const pasteReq = await fetch(`${API_URL}/pastes/${req.params.id}`)
         const pasteJson = await pasteReq.json()
-        if (pasteReq.status != 200) return res.type("text").status(404).send("not found")
+        if (pasteReq.status != 200) return res.type("text").status(pasteReq.status).send(pasteJson.title)
         return res.type("text").send(pasteJson.content)
     })
 
     app.get("/dl/:id", async (req, res) => {
         const pasteReq = await fetch(`${API_URL}/pastes/${req.params.id}`)
         const pasteJson = await pasteReq.json()
-        if (pasteReq.status != 200) return res.type("text").status(404).send("not found")
+        if (pasteReq.status != 200) return res.type("text").status(pasteReq.status).send(pasteJson.title)
         return res.attachment(`${pasteJson.title}.txt`).send(pasteJson.content)
     })
 
