@@ -127,6 +127,7 @@ function registerRoutes(app) {
                 content: pasteJson.content,
                 language: pasteJson.lang
             },
+            wrap_text: "wrap_text" in req.query ? true : false,
             head: getHeadProperties(
                 `${pasteJson.title}`,
                 `${pasteJson.meta.views} katselukertaa | ${pasteJson.meta.size} tavua | ${pasteJson.date}`,

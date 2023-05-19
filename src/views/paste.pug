@@ -1,22 +1,37 @@
 doctype html
 html(lang="fi")
     include includes/head.pug
-    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/a11y-dark.min.css')
+    link(rel='stylesheet' href='/static/hljs.css')
+
+    // Pastes that have programming language set to them most likely should
+    // not be wrapped. Plaintext pastes are typically though just text &
+    // wrapping it makes it easier. This could be automated.
+    if wrap_text || paste.plaintext
+        style code { white-space: pre-line; }
     
     br
     br
     main.container
         div
             h2 #{ paste.title }
+            // All of the buttons must have the .btn-ghost to work as a group
             .btn-group(style="float: right; position: block")
+                if !wrap_text
+                    a.btn.btn-default.btn-ghost(href=`/p/${paste.id}?wrap_text`) Rivitä teksti
+                else
+                    a.btn.btn-default.btn-ghost(href=`/p/${paste.id}`) Levitä teksti
                 a.btn.btn-default.btn-ghost(href=`/r/${paste.id}`) Raaka
-                a.btn.btn-default(href=`/dl/${paste.id}`) Lataa (#{ paste.meta.size } tavua)
+                a.btn.btn-default.btn-ghost(href=`/dl/${paste.id}`) Lataa (#{ paste.meta.size } tavua)
 
-            p #{ paste.date } | #{ paste.meta.views } katselukertaa | #{ paste.hidden ? 'Piilotettu' : 'Julkinen' }
+            dl
+                dt 📅 #{ paste.date }
+                dt 👁️ #{ paste.meta.views } katselukertaa
+                dt #{ paste.hidden ? '🔒 Piilotettu' : '🔓 Julkinen' }
         br 
         br
+        // highlight lines by #40-45
         pre
             code(class='language-' + paste.language) #{ paste.content }
-        script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js')
+        script(src='/static/highlight.min.js')
         script.
             hljs.highlightAll();
