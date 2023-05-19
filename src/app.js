@@ -15,7 +15,7 @@ function getHeadProperties(title, description, url) {
 function getApp() {
     const app = express()
     app.use("/static", express.static("static")) // css & js files
-    app.use("/public", express.static("public")) // robots.txt & .well-known
+    app.use("/", express.static("public")) // robots.txt & .well-known
     app.use(express.urlencoded({ extended: true }))
     app.use(cookieParser())
 
