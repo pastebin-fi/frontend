@@ -125,7 +125,7 @@ function registerRoutes(app) {
                 // HTML in the pastes. Then https://pastebin.fi/p/Nrdyw2hp2dHe
                 // shows an alert.
                 content: pasteJson.content,
-                language: pasteJson.language
+                language: pasteJson.lang
             },
             head: getHeadProperties(
                 `${pasteJson.title}`,
