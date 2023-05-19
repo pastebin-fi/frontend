@@ -24,11 +24,25 @@ html(lang="fi")
                 a.btn.btn-default.btn-ghost(href=`/dl/${paste.id}`) Lataa (#{ paste.meta.size } tavua)
 
             dl
-                dt 📅 #{ paste.date }
+                dt#created 📅 #{ paste.date }
                 dt 👁️ #{ paste.meta.views } katselukertaa
                 dt #{ paste.hidden ? '🔒 Piilotettu' : '🔓 Julkinen' }
-        br 
         br
+        br
+        script(src='/static/main.js')
+        script.
+            let created_elem = document.getElementById('created');
+
+            created_elem.innerText = ` ⏱️ ${timeSince('#{ paste.date }')} sitten`;
+            // let's not assume that user is in Europe/Helsinki timezone
+            created_elem.title = new Intl.DateTimeFormat(undefined, {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+            }).format(new Date('#{ paste.date }'));
         // highlight lines by #40-45
         pre
             code(class='language-' + paste.language) #{ paste.content }
