@@ -16,10 +16,6 @@ code {
     overflow-x: auto !important;
 }
 
-code, pre {
-    background-color: #fafafa;
-}
-
 a.btn.btn-default.btn-ghost {
     padding: 8.5px 20px;
     margin-top: 1.25px;

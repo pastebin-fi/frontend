@@ -2,12 +2,16 @@ doctype html
 html(lang="fi")
     include includes/head.pug
     // link(rel='stylesheet' href='/static/hljs.css')
-    link(rel='stylesheet' href='/static/atom-one-light.css')
+    link(rel='stylesheet' href=`/static/atom-one-${theme}.css`)
     // Pastes that have programming language set to them most likely should
     // not be wrapped. Plaintext pastes are typically though just text &
     // wrapping it makes it easier. This could be automated.
     if wrap_text || paste.plaintext
         style code { white-space: pre-line; }
+    if theme === "dark"
+        style code, pre { background-color: #282c34; }
+    else
+        style code, pre { background-color: #fafafa; }
     
     br
     br

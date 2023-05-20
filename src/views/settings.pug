@@ -1,0 +1,21 @@
+doctype html
+html(lang="fi")
+    include includes/head.pug
+
+    main.container
+        br
+        h1 Asetukset
+        p
+            | Katselet sivua rekisteröimättömänä käyttäjänä, jolloin asetukset tallenetaan vain evästeisiin. Rekisteröitävät käyttäjät tulevat saataville lähitulevaisuudessa™️.
+            |
+        form(method="post")
+            fieldset
+                legend Teema
+                div
+                    input(name="theme", type="radio", id="light-theme", value="light", checked=theme==="light")
+                    label(for="light-theme") vaalea
+                div
+                    input(name="theme", type="radio", id="dark-theme", value="dark", checked=theme==="dark")
+                    label(for="dark-theme") tumma
+            hr
+            button.btn.btn-default(type='submit' role='button' name='submit') Tallenna

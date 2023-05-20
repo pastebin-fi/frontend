@@ -26,10 +26,11 @@ function getApp() {
 }
 
 function registerRoutes(app) {
-    app.get("/", (_, res) => {
+    app.get("/", (req, res) => {
         res.render("index", {
             lorem: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In dapibus dui hac nostra mattis aptent lorem. Auctor nec nullam justo purus aptent placerat sociosqu.\n\nHendrerit odio adipiscing nam magna maecenas purus varius. Dictumst torquent venenatis non conubia aenean commodo eu. Ante in condimentum conubia arcu diam blandit fusce.\n\nLaoreet venenatis porta cubilia elit mus molestie potenti. Consectetur curabitur molestie eget fermentum consectetur amet fermentum. Lorem blandit proin proin odio nostra nisl eleifend.`,
             head: getHeadProperties("Etusivu", "Pastebin.fi on suomalainen tekstiliitospalvelu.", "/"),
+            theme: ["dark", "light"].includes(req.cookies.theme) ? req.cookies.theme : "light",
         })
     })
 
@@ -66,6 +67,7 @@ function registerRoutes(app) {
         res.render("about", {
             metrics: await metricsReq.json(),
             head: getHeadProperties("Tietoa", "Mikä ihmeen pastebin.fi?", "/about"),
+            theme: ["dark", "light"].includes(req.cookies.theme) ? req.cookies.theme : "light",
         })
     })
 
@@ -105,8 +107,22 @@ function registerRoutes(app) {
             lastPage: Math.max(0, (parseInt(originalQuery.p) || 0) - 1),
             currentPage: Math.max(0, parseInt(originalQuery.p) || 0),
             hasMorePages: browseJson.length > per_page,
+            theme: ["dark", "light"].includes(req.cookies.theme) ? req.cookies.theme : "light",
             head: getHeadProperties("Selaa", "Selaa viimeisimpiä tekstiliitoksia.", "/browse"),
         })
+    })
+
+    app.get("/settings", async (req, res) => {
+        res.render("settings", {
+            head: getHeadProperties("Asetukset", "pastebin.fi-sivuston asetukset anonyymina vierailijana", "/settings"),
+            theme: ["dark", "light"].includes(req.cookies.theme) ? req.cookies.theme : "light"
+        })
+    })
+
+    app.post("/settings", async (req, res) => {
+        // we validate the theme later in the code
+        res.cookie('theme', req.body.theme)
+        res.redirect('/settings');
     })
 
     app.get("/p/:id", async (req, res) => {
@@ -125,8 +141,9 @@ function registerRoutes(app) {
                 // HTML in the pastes. Then https://pastebin.fi/p/Nrdyw2hp2dHe
                 // shows an alert.
                 content: pasteJson.content,
-                language: pasteJson.lang
+                language: pasteJson.lang,
             },
+            theme: ["dark", "light"].includes(req.cookies.theme) ? req.cookies.theme : "light",
             wrap_text: "wrap_text" in req.query ? true : false,
             head: getHeadProperties(
                 `${pasteJson.title}`,

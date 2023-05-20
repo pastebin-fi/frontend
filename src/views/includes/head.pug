@@ -17,6 +17,9 @@ head
     link(rel="stylesheet", href="/static/main.css")
     link(rel="stylesheet", href="/static/hljs.css")
 
+    if theme === "dark"
+        link(rel="stylesheet", href="/static/dark-mode.css")
+
 .terminal-nav.container
     .terminal-logo
         .logo
@@ -27,3 +30,5 @@ head
                 a.menu-item(href="/browse") Selaa liitteitä
             li
                 a.menu-item(href="/about") Tietoa meistä
+            li
+                a.menu-item(href="/settings") Asetukset
